@@ -1,0 +1,15 @@
+/node_modules
+/src
+.editorconfig
+.gitignore
+.npmignore
+LICENCE.txt
+mocha.opts
+npm-debug.log
+tsconfig.ide.json
+tsconfig.json
+tslint.json
+
+# IDE #
+.idea
+*.swp

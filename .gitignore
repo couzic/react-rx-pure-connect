@@ -1,0 +1,8 @@
+coverage
+lib
+node_modules
+npm-debug.log
+
+# IDE #
+.idea
+*.swp
