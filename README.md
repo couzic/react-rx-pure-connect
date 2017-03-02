@@ -4,6 +4,11 @@
 
 ## Usage
 
+### Installation
+```sh
+npm i -S react-rx-pure-connect
+```
+
 ### Simple example
 
 ```ts
