@@ -36,12 +36,12 @@ interface InternalProps {
 
 const Component: React.StatelessComponent<InternalProps> = ({person}) => <h1>Hello, {person.name}</h1>
 
-interface ExternalProps {
+interface PublicProps {
    personId: number
 }
 
-// maps ExternalProps to Observable<InternalProps>
-const propsMapper = (props: ExternalProps) => personRepo
+// maps PublicProps to Observable<InternalProps>
+const propsMapper = (props: PublicProps) => personRepo
    .find(props.personId)
    .map(person => ({person}))
    
