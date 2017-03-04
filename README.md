@@ -29,6 +29,7 @@ const UI = () => <Greeter />
 
 ```ts
 import * as React from 'react'
+import {Observable} from 'rxjs'
 import {connect} from 'react-rx-pure-connect'
  
 interface Person {
@@ -46,8 +47,7 @@ interface PublicProps {
 }
 
 // maps PublicProps to Observable<InternalProps>
-const propsMapper = (props: PublicProps) => personRepo
-   .find(props.personId)
+const propsMapper = (props: PublicProps) => Observable.ajax.getJSON(`/api/person/${props.personId}`)
    .map(person => ({person}))
    
 const Greeter = connect(propsMapper)(Component)
