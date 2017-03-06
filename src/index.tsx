@@ -1,8 +1,8 @@
-import * as React from 'react'
-import {BehaviorSubject, Subscription, Observable} from 'rxjs'
-import 'rxjs/add/operator/switchMap'
-
-import {shallowEqual} from './shallowEqual'
+import * as React from 'react';
+import {BehaviorSubject, Subscription, Observable} from 'rxjs';
+import 'rxjs/add/operator/distinctUntilChanged';
+import 'rxjs/add/operator/switchMap';
+import {shallowEqual} from './shallowEqual';
 
 export interface PropsMapper<EP, IP> {
    (externalProps: EP): Observable<IP>
@@ -23,6 +23,7 @@ function wrapper<EP, IP, WC>(propsMapper: PropsMapper<EP, IP>,
       componentWillMount() {
          this.externalProps$ = new BehaviorSubject(this.props)
          const internalProps$: Observable<IP> = this.externalProps$
+            .distinctUntilChanged(shallowEqual)
             .switchMap(propsMapper)
             .distinctUntilChanged(shallowEqual)
          this.subscription = internalProps$.subscribe(internalProps => {
