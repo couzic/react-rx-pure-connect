@@ -1,8 +1,8 @@
-import * as React from 'react';
-import {BehaviorSubject, Subscription, Observable} from 'rxjs';
-import 'rxjs/add/operator/distinctUntilChanged';
-import 'rxjs/add/operator/switchMap';
-import {shallowEqual} from './shallowEqual';
+import * as React from 'react'
+import {BehaviorSubject, Subscription, Observable} from 'rxjs'
+import 'rxjs/add/operator/distinctUntilChanged'
+import 'rxjs/add/operator/switchMap'
+import {shallowEqual} from './shallowEqual'
 
 export interface PropsMapper<EP, IP> {
    (externalProps: EP): Observable<IP>
@@ -12,8 +12,14 @@ export interface ConnectedComponent<EP> {
    new(props: EP): React.Component<EP, {}>
 }
 
+export interface Spinner extends React.StatelessComponent<{}> {
+}
+
+const defaultSpinner: Spinner = () => <span />
+
 function wrapper<EP, IP, WC>(propsMapper: PropsMapper<EP, IP>,
-                             wrappedComponent: React.StatelessComponent<IP>): ConnectedComponent<EP> {
+                             wrappedComponent: React.StatelessComponent<IP>,
+                             spinner: Spinner = defaultSpinner): ConnectedComponent<EP> {
 
    return class extends React.Component<EP, {}> {
       private externalProps$: BehaviorSubject<EP>
@@ -44,14 +50,14 @@ function wrapper<EP, IP, WC>(propsMapper: PropsMapper<EP, IP>,
          if (this.internalProps !== undefined)
             return wrappedComponent(this.internalProps)
          else
-            return <div>Loading... </div>
+            return spinner({})
       }
 
    }
 }
 
 export function connect<EP, IP>(propsMapper: PropsMapper<EP, IP>) {
-   return function (wrappedComponent: React.StatelessComponent<IP>): ConnectedComponent<EP> {
-      return wrapper(propsMapper, wrappedComponent)
+   return function (wrappedComponent: React.StatelessComponent<IP>, spinner?: Spinner): ConnectedComponent<EP> {
+      return wrapper(propsMapper, wrappedComponent, spinner)
    }
 }
