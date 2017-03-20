@@ -15,7 +15,7 @@ export interface ConnectedComponent<EP> {
 export interface Spinner extends React.StatelessComponent<{}> {
 }
 
-const defaultSpinner: Spinner = () => <span />
+const defaultSpinner: Spinner = () => <div className="react-rx-pure-connect-spinner"/>
 
 function wrapper<EP, IP, WC>(propsMapper: PropsMapper<EP, IP>,
                              wrappedComponent: React.StatelessComponent<IP>,
