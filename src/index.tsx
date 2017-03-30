@@ -71,7 +71,7 @@ export const connect = <EP, IP>(propsMapper: PropsMapper<EP, IP>) =>
    (wrappedComponent: React.StatelessComponent<IP>, spinner?: Spinner): ConnectedComponent<EP> =>
       wrapper(propsMapper, wrappedComponent, spinner)
 
-export const connectTo = <EP, IP>(props$: Observable<IP>, Component: React.StatelessComponent<IP>, options?: Partial<ConnectOptions<EP, IP>>) =>
+export const connectTo = <EP, IP>(props$: Observable<IP>, Component: React.StatelessComponent<IP>, options?: Partial<ConnectOptions<EP, IP>>): ConnectedComponent<{}> =>
    wrapper(() => props$, Component, options)
 
 export const connectWith = <EP, IP>(propsMapper: PropsMapper<EP, IP>, Component: React.StatelessComponent<IP>, options?: Partial<ConnectOptions<EP, IP>>) =>
