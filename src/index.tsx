@@ -1,8 +1,13 @@
 import * as React from 'react'
-import {BehaviorSubject, Subscription, Observable} from 'rxjs'
+import {Observable, Subject, Subscription} from 'rxjs'
 import 'rxjs/add/operator/distinctUntilChanged'
 import 'rxjs/add/operator/switchMap'
 import {shallowEqual} from './shallowEqual'
+
+export interface ConnectOptions<EP, IP> {
+   spinner: Spinner,
+   onWillUnmount: (externalProps: EP, internalProps: IP) => void
+}
 
 export interface PropsMapper<EP, IP> {
    (externalProps: EP): Observable<IP>
@@ -17,25 +22,29 @@ export interface Spinner extends React.StatelessComponent<{}> {
 
 const defaultSpinner: Spinner = () => <div className="react-rx-pure-connect-spinner"/>
 
-function wrapper<EP, IP, WC>(propsMapper: PropsMapper<EP, IP>,
-                             wrappedComponent: React.StatelessComponent<IP>,
-                             spinner: Spinner = defaultSpinner): ConnectedComponent<EP> {
+const defaultOptions: ConnectOptions<any, any> = {
+   spinner: defaultSpinner,
+   onWillUnmount: function () {
+   }
+}
 
-   return class extends React.Component<EP, {}> {
-      private externalProps$: BehaviorSubject<EP>
+function wrapper<EP, IP>(propsMapper: PropsMapper<EP, IP>,
+                         WrappedComponent: React.StatelessComponent<IP>,
+                         userOptions?: Partial<ConnectOptions<EP, IP>>): ConnectedComponent<EP> {
+
+   const options: ConnectOptions<EP, IP> = {...defaultOptions, ...userOptions}
+
+   return class extends React.Component<EP, IP> {
+      private externalProps$ = new Subject<EP>()
       private subscription: Subscription
-      private internalProps: IP
 
       componentWillMount() {
-         this.externalProps$ = new BehaviorSubject(this.props)
-         const internalProps$: Observable<IP> = this.externalProps$
+         this.subscription = this.externalProps$
             .distinctUntilChanged(shallowEqual)
             .switchMap(propsMapper)
             .distinctUntilChanged(shallowEqual)
-         this.subscription = internalProps$.subscribe(internalProps => {
-            this.internalProps = internalProps
-            this.forceUpdate()
-         })
+            .subscribe(internalProps => this.setState(internalProps))
+         this.externalProps$.next(this.props)
       }
 
       componentWillReceiveProps(nextProps: EP) {
@@ -44,20 +53,26 @@ function wrapper<EP, IP, WC>(propsMapper: PropsMapper<EP, IP>,
 
       componentWillUnmount() {
          this.subscription.unsubscribe()
+         options.onWillUnmount(this.props, this.state)
       }
 
       render() {
-         if (this.internalProps !== undefined)
-            return wrappedComponent(this.internalProps)
+         if (this.state !== null)
+            return <WrappedComponent {...this.state} />
          else
-            return spinner({})
+            return options.spinner({})
       }
 
    }
 }
 
-export function connect<EP, IP>(propsMapper: PropsMapper<EP, IP>) {
-   return function (wrappedComponent: React.StatelessComponent<IP>, spinner?: Spinner): ConnectedComponent<EP> {
-      return wrapper(propsMapper, wrappedComponent, spinner)
-   }
-}
+// Deprecated
+export const connect = <EP, IP>(propsMapper: PropsMapper<EP, IP>) =>
+   (wrappedComponent: React.StatelessComponent<IP>, spinner?: Spinner): ConnectedComponent<EP> =>
+      wrapper(propsMapper, wrappedComponent, spinner)
+
+export const connectTo = <EP, IP>(props$: Observable<IP>, Component: React.StatelessComponent<IP>, options?: Partial<ConnectOptions<EP, IP>>) =>
+   wrapper(() => props$, Component, options)
+
+export const connectWith = <EP, IP>(propsMapper: PropsMapper<EP, IP>, Component: React.StatelessComponent<IP>, options?: Partial<ConnectOptions<EP, IP>>) =>
+   wrapper(propsMapper, Component, options)
