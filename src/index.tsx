@@ -34,7 +34,7 @@ function wrapper<EP, IP>(propsMapper: PropsMapper<EP, IP>,
 
    const options: ConnectOptions<EP, IP> = {...defaultOptions, ...userOptions}
 
-   return class extends React.Component<EP, IP> {
+   return class extends React.Component<EP, { internalProps: IP }> {
       private externalProps$ = new Subject<EP>()
       private subscription: Subscription
 
@@ -43,7 +43,7 @@ function wrapper<EP, IP>(propsMapper: PropsMapper<EP, IP>,
             .distinctUntilChanged(shallowEqual)
             .switchMap(propsMapper)
             .distinctUntilChanged(shallowEqual)
-            .subscribe(internalProps => this.setState(internalProps))
+            .subscribe(internalProps => this.setState({internalProps}))
          this.externalProps$.next(this.props)
       }
 
@@ -53,12 +53,12 @@ function wrapper<EP, IP>(propsMapper: PropsMapper<EP, IP>,
 
       componentWillUnmount() {
          this.subscription.unsubscribe()
-         options.onWillUnmount(this.props, this.state)
+         options.onWillUnmount(this.props, this.state.internalProps)
       }
 
       render() {
          if (this.state !== null)
-            return <WrappedComponent {...this.state} />
+            return <WrappedComponent {...this.state.internalProps} />
          else
             return options.spinner({})
       }
