@@ -58,7 +58,7 @@ function wrapper<EP, IP>(propsMapper: PropsMapper<EP, IP>,
 
       render() {
          if (this.state !== null)
-            return <WrappedComponent {...this.state.internalProps} />
+            return WrappedComponent(this.state.internalProps)
          else
             return options.spinner({})
       }
