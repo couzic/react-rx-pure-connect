@@ -9,7 +9,11 @@
     "declaration": true,
     "sourceMap": true,
     "noImplicitAny": true,
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "lib": [
+      "dom",
+      "es2015"
+    ]
   },
   "files": [
     "src/index.tsx"

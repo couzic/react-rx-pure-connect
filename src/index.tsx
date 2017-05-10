@@ -66,10 +66,14 @@ function wrapper<EP, IP>(propsMapper: PropsMapper<EP, IP>,
    }
 }
 
-export const connectTo = <EP, IP>(props$: Observable<IP>, Component: React.StatelessComponent<IP>, options?: Partial<ConnectOptions<EP, IP>>): ConnectedComponent<{}> =>
+export const connectTo = <EP, IP>(props$: Observable<IP>,
+                                  Component: React.StatelessComponent<IP>,
+                                  options?: Partial<ConnectOptions<{}, IP>>): ConnectedComponent<{}> =>
    wrapper(() => props$, Component, options)
 
-export const connectWith = <EP, IP>(propsMapper: PropsMapper<EP, IP>, Component: React.StatelessComponent<IP>, options?: Partial<ConnectOptions<EP, IP>>) =>
+export const connectWith = <EP, IP>(propsMapper: PropsMapper<EP, IP>,
+                                    Component: React.StatelessComponent<IP>,
+                                    options?: Partial<ConnectOptions<EP, IP>>): ConnectedComponent<EP> =>
    wrapper(propsMapper, Component, options)
 
 // Deprecated
