@@ -5,7 +5,8 @@ import 'rxjs/add/operator/switchMap'
 import {shallowEqual} from './shallowEqual'
 
 export interface ConnectOptions<EP, IP> {
-   spinner: Spinner,
+   spinner: Spinner
+   onWillMount: (externalProps: EP) => void
    onWillUnmount: (externalProps: EP, internalProps: IP) => void
 }
 
@@ -24,8 +25,8 @@ const defaultSpinner: Spinner = () => <div className="react-rx-pure-connect-spin
 
 const defaultOptions: ConnectOptions<any, any> = {
    spinner: defaultSpinner,
-   onWillUnmount: function () {
-   }
+   onWillMount: () => null,
+   onWillUnmount: () => null
 }
 
 function wrapper<EP, IP>(propsMapper: PropsMapper<EP, IP>,
@@ -39,6 +40,7 @@ function wrapper<EP, IP>(propsMapper: PropsMapper<EP, IP>,
       private subscription: Subscription
 
       componentWillMount() {
+         options.onWillMount(this.props)
          this.subscription = this.externalProps$
             .distinctUntilChanged(shallowEqual)
             .switchMap(propsMapper)
