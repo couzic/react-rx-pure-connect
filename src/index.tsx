@@ -18,7 +18,7 @@ export interface ConnectedComponent<EP> extends React.ComponentClass<EP> {
    new(props: EP): React.Component<EP, {}>
 }
 
-export interface Spinner extends React.StatelessComponent<{}> {
+export interface Spinner extends React.SFC<{}> {
 }
 
 const defaultSpinner: Spinner = () => <div className="react-rx-pure-connect-spinner"/>
@@ -30,7 +30,7 @@ const defaultOptions: ConnectOptions<any, any> = {
 }
 
 function wrapper<EP, IP>(propsMapper: PropsMapper<EP, IP>,
-                         WrappedComponent: React.StatelessComponent<IP>,
+                         WrappedComponent: React.SFC<IP>,
                          userOptions?: Partial<ConnectOptions<EP, IP>>): ConnectedComponent<EP> {
 
    const options: ConnectOptions<EP, IP> = {...defaultOptions, ...userOptions}
@@ -69,16 +69,28 @@ function wrapper<EP, IP>(propsMapper: PropsMapper<EP, IP>,
 }
 
 export const connectTo = <EP, IP>(props$: Observable<IP>,
-                                  Component: React.StatelessComponent<IP>,
+                                  Component: React.SFC<IP>,
                                   options?: Partial<ConnectOptions<{}, IP>>): ConnectedComponent<{}> =>
    wrapper(() => props$, Component, options)
 
 export const connectWith = <EP, IP>(propsMapper: PropsMapper<EP, IP>,
-                                    Component: React.StatelessComponent<IP>,
+                                    Component: React.SFC<IP>,
                                     options?: Partial<ConnectOptions<EP, IP>>): ConnectedComponent<EP> =>
    wrapper(propsMapper, Component, options)
 
+export interface RouteOptions<RP, IP> extends Partial<ConnectOptions<RP, IP>> {
+   onRoutePropsChange: (routeProps: RP) => void
+   internalProps$: Observable<IP>
+}
+
+export const connectRoutable = <RP, IP>(Component: React.SFC<IP>,
+                                        options: RouteOptions<RP, IP>): ConnectedComponent<RP> =>
+   wrapper<RP, IP>(() => options.internalProps$, Component, {
+      ...options,
+      onWillMount: options.onRoutePropsChange
+   })
+
 // Deprecated
 export const connect = <EP, IP>(propsMapper: PropsMapper<EP, IP>) =>
-   (wrappedComponent: React.StatelessComponent<IP>, spinner?: Spinner): ConnectedComponent<EP> =>
+   (wrappedComponent: React.SFC<IP>, spinner?: Spinner): ConnectedComponent<EP> =>
       wrapper(propsMapper, wrappedComponent, spinner)
