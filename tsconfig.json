@@ -15,7 +15,10 @@
       "es2015"
     ]
   },
-  "files": [
-    "src/index.tsx"
+  "include": [
+    "src/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
   ]
 }

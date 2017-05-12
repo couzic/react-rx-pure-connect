@@ -1,6 +1,6 @@
 {
   "name": "react-rx-pure-connect",
-  "version": "1.0.15",
+  "version": "1.0.19",
   "description": "Connecting RxJS Observables to Pure React Stateless Functional Components (type safety included)",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
