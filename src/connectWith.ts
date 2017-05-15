@@ -1,17 +1,11 @@
 import * as React from 'react'
-import {Observable} from 'rxjs/Observable'
 import {Subject} from 'rxjs/Subject'
 import {Subscription} from 'rxjs/Subscription'
-import 'rxjs/add/operator/distinctUntilChanged'
-import 'rxjs/add/operator/switchMap'
-import 'rxjs/add/operator/map'
 import {ConnectedComponent} from './ConnectedComponent'
-import {ConnectOptions, defaultConnectOptions} from './ConnectOptions'
+import {ConnectOptions} from './ConnectOptions'
 import {shallowEqual} from './shallowEqual'
-
-export interface PropsMapper<EP, IP> {
-   (externalProps: EP): Observable<IP>
-}
+import {PropsMapper} from './PropsMapper'
+import {defaultConnectOptions} from './defaultConnectOptions'
 
 export function connectWithMapper<EP, IP>(WrappedComponent: React.SFC<IP>,
                                           propsMapper: PropsMapper<EP, IP>,

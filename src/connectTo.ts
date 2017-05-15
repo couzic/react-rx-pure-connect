@@ -2,10 +2,10 @@ import * as React from 'react'
 import {Observable} from 'rxjs/Observable'
 import {Subject} from 'rxjs/Subject'
 import {Subscription} from 'rxjs/Subscription'
-import 'rxjs/add/operator/distinctUntilChanged'
-import {ConnectOptions, defaultConnectOptions} from './ConnectOptions'
+import {ConnectOptions} from './ConnectOptions'
 import {ConnectedComponent} from './ConnectedComponent'
 import {shallowEqual} from './shallowEqual'
+import {defaultConnectOptions} from './defaultConnectOptions'
 
 export function connectTo<EP, IP>(WrappedComponent: React.SFC<IP>,
                                   internalProps$: Observable<IP>,

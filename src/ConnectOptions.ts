@@ -1,4 +1,4 @@
-import {defaultSpinner, Spinner} from './Spinner'
+import {Spinner} from './Spinner'
 
 export interface ConnectOptions<EP, IP> {
    spinner: Spinner
@@ -10,12 +10,3 @@ export interface ConnectOptions<EP, IP> {
    componentWillUnmount: (externalProps: EP, internalProps: IP) => void
 }
 
-export const defaultConnectOptions: ConnectOptions<any, any> = {
-   spinner: defaultSpinner,
-   onExternalPropsChange: () => null,
-   onInternalPropsChange: () => null,
-   componentWillMount: () => null,
-   componentDidMount: () => null,
-   componentWillReceiveExternalProps: () => null,
-   componentWillUnmount: () => null
-}

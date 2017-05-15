@@ -1,6 +1,4 @@
 import * as React from 'react'
-
-export interface Spinner extends React.SFC<{}> {
-}
+import {Spinner} from './Spinner'
 
 export const defaultSpinner: Spinner = () => <div className='react-rx-pure-connect-spinner'/>
