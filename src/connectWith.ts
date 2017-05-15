@@ -13,7 +13,7 @@ export function connectWithMapper<EP, IP>(WrappedComponent: React.SFC<IP>,
 
    const options: ConnectOptions<EP, IP> = {...defaultConnectOptions, ...userOptions}
 
-   return class ConnectComponentWithMapper extends React.Component<EP, {}> {
+   return class ComponentConnectedWithMapper extends React.Component<EP, {}> {
       private externalProps$ = new Subject<EP>()
       private subscription: Subscription
       private internalProps: IP

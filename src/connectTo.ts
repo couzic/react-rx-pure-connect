@@ -13,7 +13,7 @@ export function connectTo<EP, IP>(WrappedComponent: React.SFC<IP>,
 
    const options: ConnectOptions<EP, IP> = {...defaultConnectOptions, ...userOptions}
 
-   return class ConnectComponentToValue extends React.Component<EP, {}> {
+   return class ComponentConnectedToObservable extends React.Component<EP, {}> {
       private externalProps$ = new Subject<EP>()
       private externalSubscription: Subscription
       private internalSubscription: Subscription
@@ -50,7 +50,7 @@ export function connectTo<EP, IP>(WrappedComponent: React.SFC<IP>,
       }
 
       componentWillUnmount() {
-         this.externalSubscription.unsubscribe()
+         this.externalSubscription && this.externalSubscription.unsubscribe()
          this.internalSubscription.unsubscribe()
          options.componentWillUnmount(this.props, this.internalProps)
       }
