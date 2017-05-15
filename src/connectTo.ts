@@ -7,8 +7,8 @@ import {ConnectOptions, defaultConnectOptions} from './ConnectOptions'
 import {ConnectedComponent} from './ConnectedComponent'
 import {shallowEqual} from './shallowEqual'
 
-export function connectTo<EP, IP>(internalProps$: Observable<IP>,
-                                  WrappedComponent: React.SFC<IP>,
+export function connectTo<EP, IP>(WrappedComponent: React.SFC<IP>,
+                                  internalProps$: Observable<IP>,
                                   userOptions?: Partial<ConnectOptions<EP, IP>>): ConnectedComponent<EP> {
 
    const options: ConnectOptions<EP, IP> = {...defaultConnectOptions, ...userOptions}

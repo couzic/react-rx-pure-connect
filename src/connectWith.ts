@@ -13,13 +13,13 @@ export interface PropsMapper<EP, IP> {
    (externalProps: EP): Observable<IP>
 }
 
-export function connectWith<EP, IP>(propsMapper: PropsMapper<EP, IP>,
-                                    WrappedComponent: React.SFC<IP>,
-                                    userOptions?: Partial<ConnectOptions<EP, IP>>): ConnectedComponent<EP> {
+export function connectWithMapper<EP, IP>(WrappedComponent: React.SFC<IP>,
+                                          propsMapper: PropsMapper<EP, IP>,
+                                          userOptions?: Partial<ConnectOptions<EP, IP>>): ConnectedComponent<EP> {
 
    const options: ConnectOptions<EP, IP> = {...defaultConnectOptions, ...userOptions}
 
-   return class ConnectComponentWithFunction extends React.Component<EP, {}> {
+   return class ConnectComponentWithMapper extends React.Component<EP, {}> {
       private externalProps$ = new Subject<EP>()
       private subscription: Subscription
       private internalProps: IP
