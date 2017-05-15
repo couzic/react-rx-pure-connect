@@ -1,2 +1,1 @@
-export * from './connectTo'
-export * from './connectWith'
+export * from './connect'

@@ -32,13 +32,13 @@ export function connectWithMapper<EP, IP>(WrappedComponent: React.SFC<IP>,
          options.componentWillMount(this.props)
          this.subscription = this.externalProps$
             .distinctUntilChanged(shallowEqual)
-            .map(externalProps => {
+            .map((externalProps: EP) => {
                options.onExternalPropsChange(externalProps)
                return externalProps
             })
             .switchMap(propsMapper)
             .distinctUntilChanged(shallowEqual)
-            .subscribe(internalProps => {
+            .subscribe((internalProps: IP) => {
                this.internalProps = internalProps
                options.onInternalPropsChange(internalProps)
                this.forceUpdate()

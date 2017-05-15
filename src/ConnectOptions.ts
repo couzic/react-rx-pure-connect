@@ -3,7 +3,7 @@ import {defaultSpinner, Spinner} from './Spinner'
 export interface ConnectOptions<EP, IP> {
    spinner: Spinner
    onExternalPropsChange: (externalProps: EP) => void
-   onInternalPropsChange: (internalProps: EP) => void
+   onInternalPropsChange: (internalProps: IP) => void
    componentWillMount: (externalProps: EP) => void
    componentDidMount: (externalProps: EP) => void
    componentWillReceiveExternalProps: (externalProps: EP) => void

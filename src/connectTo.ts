@@ -28,12 +28,12 @@ export function connectTo<EP, IP>(WrappedComponent: React.SFC<IP>,
          if (userOptions && userOptions.onExternalPropsChange) {
             this.externalSubscription = this.externalProps$
                .distinctUntilChanged(shallowEqual)
-               .subscribe(externalProps => options.onExternalPropsChange(externalProps))
+               .subscribe((externalProps: EP) => options.onExternalPropsChange(externalProps))
             this.externalProps$.next(this.props)
          }
          this.internalSubscription = internalProps$
             .distinctUntilChanged(shallowEqual)
-            .subscribe(internalProps => {
+            .subscribe((internalProps: IP) => {
                this.internalProps = internalProps
                options.onInternalPropsChange(internalProps)
                this.forceUpdate()
