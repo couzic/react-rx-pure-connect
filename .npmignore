@@ -3,7 +3,7 @@
 .editorconfig
 .gitignore
 .npmignore
-LICENCE.txt
+LICENCE
 mocha.opts
 npm-debug.log
 tsconfig.ide.json
