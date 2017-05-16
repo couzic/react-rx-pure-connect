@@ -1,18 +1,21 @@
 {
   "extends": "./tsconfig.ide",
   "compilerOptions": {
-    "module": "commonjs",
+    "module": "es2015",
     "moduleResolution": "node",
     "target": "es5",
-    "jsx": "react",
     "outDir": "lib",
     "declaration": true,
     "sourceMap": true,
+    "jsx": "react",
     "noImplicitAny": true,
     "strictNullChecks": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
     "lib": [
       "dom",
-      "es2015"
+      "es5",
+      "es2015.promise"
     ]
   },
   "include": [

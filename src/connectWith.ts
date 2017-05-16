@@ -1,6 +1,5 @@
 import * as React from 'react'
-import {Subject} from 'rxjs/Subject'
-import {Subscription} from 'rxjs/Subscription'
+import {Subject, Subscription} from 'rxjs'
 import {ConnectedComponent} from './ConnectedComponent'
 import {ConnectOptions} from './ConnectOptions'
 import {shallowEqual} from './shallowEqual'
