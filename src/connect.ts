@@ -2,7 +2,7 @@ import {Observable} from 'rxjs'
 import {connectTo} from './connectTo'
 import {ConnectOptions} from './ConnectOptions'
 import {ConnectedComponent} from './ConnectedComponent'
-import {connectWithMapper} from './connectWith'
+import {connectWithMapper} from './connectWithMapper'
 import {PropsMapper} from './PropsMapper'
 
 export function connect<IP>(WrappedComponent: React.SFC<IP>) {
