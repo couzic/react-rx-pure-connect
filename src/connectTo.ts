@@ -10,8 +10,8 @@ export function connectTo<EP, IP>(WrappedComponent: React.SFC<IP>,
                                   providedInternalProps$: Observable<IP>,
                                   userOptions?: Partial<ConnectOptions<EP, IP>>): ConnectedComponent<EP> {
 
-   const internalProps$ = new ReplaySubject<IP>()
-   providedInternalProps$.subscribe(ip => internalProps$.next(ip))
+   const internalProps$ = new ReplaySubject<IP>(1)
+   providedInternalProps$.subscribe(internalProps$)
 
    const options: ConnectOptions<EP, IP> = {...defaultConnectOptions, ...userOptions}
 
