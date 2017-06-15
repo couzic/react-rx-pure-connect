@@ -1,8 +1,10 @@
+const isFalsey = (input: any): boolean => input === null || input === undefined
+
 export function shallowEqual(objA: any, objB: any): boolean {
 
-   if (objA === null && objB === null) {
+   if (isFalsey(objA) && isFalsey(objB)) {
       return true
-   } else if (objA === null || objB === null) {
+   } else if (isFalsey(objA) || isFalsey(objB)) {
       return false
    }
 
