@@ -1,4 +1,10 @@
-export const shallowEqual = (objA: any, objB: any): boolean => {
+export function shallowEqual(objA: any, objB: any): boolean {
+
+   if (objA === null && objB === null) {
+      return true
+   } else if (objA === null || objB === null) {
+      return false
+   }
 
    if (objA === objB) {
       return true
