@@ -1,22 +1,19 @@
 {
   "extends": "./tsconfig.ide",
   "compilerOptions": {
-    "module": "es2015",
-    "moduleResolution": "node",
-    "target": "es5",
-    "outDir": "lib",
-    "declaration": true,
-    "sourceMap": true,
-    "jsx": "react",
-    "noImplicitAny": true,
-    "strictNullChecks": true,
-    "noImplicitReturns": true,
-    "noImplicitThis": true,
     "lib": [
       "dom",
       "es5",
       "es2015.promise"
-    ]
+    ],
+    "jsx": "react",
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "target": "es5",
+    "outDir": "lib",
+    "declaration": true,
+    "sourceMap": true
   },
   "files": [
     "src/index.ts"
