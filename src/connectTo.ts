@@ -15,7 +15,7 @@ export function connectTo<EP, IP>(WrappedComponent: React.SFC<IP>,
 
    const options: ConnectOptions<EP, IP> = {...defaultConnectOptions, ...userOptions}
 
-   return class ComponentConnectedToObservable extends React.Component<EP, {}> {
+   return class ObservableConnectedComponent extends React.Component<EP, {}> {
       private externalProps$ = new Subject<EP>()
       private externalSubscription: Subscription
       private internalSubscription: Subscription
